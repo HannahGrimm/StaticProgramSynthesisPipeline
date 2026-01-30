@@ -1,0 +1,13 @@
+(set-logic ALL)
+(synth-fun swap2 ((s (Array Int Int))) (Array Int Int)
+  ((S (Array Int Int)) (A (Array Int Int)))
+  ((S (Array Int Int)
+      (A
+       (store (store A 0 (select A 1)) 1 (select A 0))))
+   (A (Array Int Int) ((Variable (Array Int Int)))))
+)
+; build a concrete array [10,20] from the const-0 array, then expect [20,10]
+(constraint
+  (= (swap2 (store (store ((as const (Array Int Int)) 0) 0 10) 1 20))
+     (store (store ((as const (Array Int Int)) 0) 0 20) 1 10)))
+(check-synth)

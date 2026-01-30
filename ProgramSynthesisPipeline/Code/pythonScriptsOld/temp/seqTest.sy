@@ -1,0 +1,18 @@
+(set-logic ALL)
+
+(synth-fun addOneAtEach ((s (Seq Int))) (Seq Int))
+
+(declare-var a (Seq Int))
+(declare-var b (Seq Int))
+(declare-var index Int)
+
+(constraint (=> 
+    (and 
+        (< index (seq.len a))
+        (>= index 0)
+        (= b (addOneAtEach a))
+    )
+    (= (seq.nth b index) (+ 1 (seq.nth a index)))
+))
+
+(check-synth)

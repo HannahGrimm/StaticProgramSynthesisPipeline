@@ -1,0 +1,4 @@
+colorama==0.4.6
+lark==1.1.8
+numpy==2.2.0
+tqdm==4.66.2

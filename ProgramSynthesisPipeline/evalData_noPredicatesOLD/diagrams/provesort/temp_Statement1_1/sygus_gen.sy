@@ -1,0 +1,34 @@
+(set-logic ALL)
+(declare-datatype Tuple ((empty) (mkTuple (getField0 Int))))
+
+(declare-var tmp_preCon Int)
+(declare-var tmp_postCon Int)
+(declare-var j_preCon Int)
+(declare-var j_postCon Int)
+(declare-var i_preCon Int)
+(declare-var i_postCon Int)
+(declare-var data_preCon (Seq Int))
+(declare-var data_postCon (Seq Int))
+
+(define-fun preCondition ((tmp_preCon Int) (j_preCon Int) (i_preCon Int) (data_preCon (Seq Int))) Bool (and (and (= data_preCon data1_oldVal) (not false) (>= i_preCon 0) (<= i_preCon (seq.len data_preCon)) (<= j_preCon (- (seq.len data_preCon) 2)) (>= j_preCon (- i_preCon 1)) (= true true) (not false) (= true true) true)))
+
+(define-fun postCondition ((tmp_postCon Int) (j_postCon Int) (i_postCon Int) (data_postCon (Seq Int))) Bool (and (= i_postCon 0)))
+
+(synth-fun targetFunction ((tmp Int) (j Int) (i Int) (data (Seq Int))) Tuple)
+
+(declare-var tmp_in Int)
+(declare-var j_in Int)
+(declare-var i_in Int)
+(declare-var data_in (Seq Int))
+(declare-var i_out Int)
+
+(constraint (forall ((tmp_in Int) (j_in Int) (i_in Int) (data_in (Seq Int)) (i_out Int)) (=>
+	(and
+		(preCondition tmp_in j_in i_in data_in)
+		(= i_out (getField0 (targetFunction tmp_in j_in i_in data_in)))
+	)
+	(and
+		(postCondition tmp_in j_in i_out data_in)
+	)
+)))
+(check-synth)
